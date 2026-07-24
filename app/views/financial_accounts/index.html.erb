@@ -1,0 +1,30 @@
+<% content_for :title, "Contas" %>
+
+<div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+  <div>
+    <h1 class="h3 mb-1">Contas financeiras</h1>
+    <p class="text-secondary mb-0">Bancos, caixa, cartoes e investimentos.</p>
+  </div>
+  <%= link_to new_financial_account_path, class: "btn btn-primary" do %>
+    <i class="bi bi-plus-lg me-1"></i> Conta
+  <% end %>
+</div>
+
+<div class="row g-3">
+  <% @financial_accounts.each do |account| %>
+    <div class="col-12 col-md-6 col-xl-4">
+      <div class="panel p-3 h-100">
+        <div class="d-flex justify-content-between gap-3">
+          <div>
+            <h2 class="h5 mb-1"><%= account.name %></h2>
+            <p class="text-secondary small mb-3"><%= account.account_type.humanize %></p>
+            <div class="fs-4 fw-bold"><%= money(account.balance) %></div>
+          </div>
+          <%= link_to edit_financial_account_path(account), class: "btn btn-outline-secondary btn-sm btn-icon align-self-start", title: "Editar" do %>
+            <i class="bi bi-pencil"></i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

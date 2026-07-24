@@ -1,0 +1,53 @@
+<% content_for :title, "Dashboard" %>
+
+<div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
+  <div>
+    <h1 class="h3 mb-1">Dashboard financeiro</h1>
+    <p class="text-secondary mb-0">Visao consolidada de <%= current_user.company.name %>.</p>
+  </div>
+  <%= link_to new_financial_transaction_path, class: "btn btn-primary align-self-md-center" do %>
+    <i class="bi bi-plus-lg me-1"></i> Novo lancamento
+  <% end %>
+</div>
+
+<div class="row g-3 mb-4">
+  <%= render "metric", title: "Saldo atual", value: money(@summary[:balance]), icon: "wallet2", tone: "primary" %>
+  <%= render "metric", title: "Receitas do mes", value: money(@summary[:income]), icon: "arrow-up-right", tone: "success" %>
+  <%= render "metric", title: "Despesas do mes", value: money(@summary[:expense]), icon: "arrow-down-right", tone: "danger" %>
+  <%= render "metric", title: "Resultado", value: money(@summary[:result]), icon: "activity", tone: "info" %>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-12 col-xl-8">
+    <div class="panel p-3 p-md-4 h-100">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-0">Fluxo mensal</h2>
+      </div>
+      <div class="chart-box">
+        <canvas
+          data-controller="finance-chart"
+          data-finance-chart-labels-value="<%= @chart_data.map { |item| item[:label] }.to_json %>"
+          data-finance-chart-income-value="<%= @chart_data.map { |item| item[:income] }.to_json %>"
+          data-finance-chart-expense-value="<%= @chart_data.map { |item| item[:expense] }.to_json %>"></canvas>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-xl-4">
+    <div class="panel p-3 p-md-4 h-100">
+      <h2 class="h5 mb-3">Despesas por categoria</h2>
+      <div class="chart-box">
+        <canvas
+          data-controller="finance-chart"
+          data-finance-chart-categories-value="<%= @category_data.to_json %>"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel p-3 p-md-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="h5 mb-0">Ultimos lancamentos</h2>
+    <%= link_to "Ver todos", financial_transactions_path, class: "btn btn-outline-primary btn-sm" %>
+  </div>
+  <%= render "financial_transactions/table", transactions: @latest_transactions %>
+</div>

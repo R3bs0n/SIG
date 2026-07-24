@@ -1,0 +1,21 @@
+<%= form_with model: category, class: "row g-3" do |f| %>
+  <% if category.errors.any? %>
+    <div class="col-12"><div class="alert alert-danger"><%= category.errors.full_messages.to_sentence %></div></div>
+  <% end %>
+  <div class="col-12 col-md-5">
+    <%= f.label :name, "Nome", class: "form-label" %>
+    <%= f.text_field :name, class: "form-control", required: true %>
+  </div>
+  <div class="col-12 col-md-4">
+    <%= f.label :kind, "Tipo", class: "form-label" %>
+    <%= f.select :kind, [["Receita", "income"], ["Despesa", "expense"]], {}, class: "form-select" %>
+  </div>
+  <div class="col-12 col-md-3">
+    <%= f.label :color, "Cor", class: "form-label" %>
+    <%= f.color_field :color, class: "form-control form-control-color w-100" %>
+  </div>
+  <div class="col-12 d-flex gap-2">
+    <%= f.submit "Salvar", class: "btn btn-primary" %>
+    <%= link_to "Cancelar", categories_path, class: "btn btn-outline-secondary" %>
+  </div>
+<% end %>

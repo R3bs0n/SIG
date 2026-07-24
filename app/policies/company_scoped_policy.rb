@@ -1,0 +1,2 @@
+class CompanyScopedPolicy < ApplicationPolicy
+end

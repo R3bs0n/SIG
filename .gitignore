@@ -1,0 +1,16 @@
+/.bundle
+/.env
+/config/master.key
+/coverage
+/log/*
+/node_modules
+/public/assets
+/storage/*
+/tmp/*
+
+!/log/.keep
+!/storage/.keep
+!/tmp/.keep
+
+.byebug_history
+.DS_Store

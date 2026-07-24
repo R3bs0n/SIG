@@ -1,0 +1,39 @@
+<div class="table-responsive">
+  <table class="table table-hover align-middle mb-0">
+    <thead>
+      <tr>
+        <th>Descricao</th>
+        <th>Tipo</th>
+        <th>Conta</th>
+        <th>Categoria</th>
+        <th>Vencimento</th>
+        <th>Status</th>
+        <th class="text-end">Valor</th>
+        <th class="text-end"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% transactions.each do |transaction| %>
+        <tr>
+          <td class="fw-medium"><%= transaction.description %></td>
+          <td><%= kind_badge(transaction.kind) %></td>
+          <td><%= transaction.financial_account.name %></td>
+          <td><span style="color: <%= transaction.category.color %>">●</span> <%= transaction.category.name %></td>
+          <td><%= l(transaction.due_date) %></td>
+          <td><%= status_badge(transaction.status) %></td>
+          <td class="text-end fw-semibold"><%= money(transaction.amount) %></td>
+          <td class="text-end">
+            <%= link_to edit_financial_transaction_path(transaction), class: "btn btn-outline-secondary btn-sm btn-icon", title: "Editar" do %>
+              <i class="bi bi-pencil"></i>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+      <% if transactions.empty? %>
+        <tr>
+          <td colspan="8" class="text-center text-secondary py-4">Nenhum lancamento encontrado.</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

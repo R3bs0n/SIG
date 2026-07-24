@@ -1,0 +1,45 @@
+<% content_for :title, "Lancamentos" %>
+
+<div class="d-flex flex-column flex-md-row justify-content-between gap-3 mb-4">
+  <div>
+    <h1 class="h3 mb-1">Lancamentos</h1>
+    <p class="text-secondary mb-0">Contas a pagar, receber e movimentacoes realizadas.</p>
+  </div>
+  <%= link_to new_financial_transaction_path, class: "btn btn-primary align-self-md-center" do %>
+    <i class="bi bi-plus-lg me-1"></i> Novo lancamento
+  <% end %>
+</div>
+
+<div class="panel p-3 p-md-4 mb-4">
+  <%= form_with url: financial_transactions_path, method: :get, class: "row g-3 align-items-end" do |f| %>
+    <div class="col-12 col-md-2">
+      <%= f.label :kind, "Tipo", class: "form-label" %>
+      <%= f.select :kind, [["Todos", ""], ["Receita", "income"], ["Despesa", "expense"]], { selected: params[:kind] }, class: "form-select" %>
+    </div>
+    <div class="col-12 col-md-2">
+      <%= f.label :status, "Status", class: "form-label" %>
+      <%= f.select :status, [["Todos", ""], ["Pendente", "pending"], ["Pago", "paid"], ["Atrasado", "overdue"], ["Cancelado", "canceled"]], { selected: params[:status] }, class: "form-select" %>
+    </div>
+    <div class="col-12 col-md-3">
+      <%= f.label :category_id, "Categoria", class: "form-label" %>
+      <%= f.collection_select :category_id, @categories, :id, :name, { include_blank: "Todas", selected: params[:category_id] }, class: "form-select" %>
+    </div>
+    <div class="col-6 col-md-2">
+      <%= f.label :from, "De", class: "form-label" %>
+      <%= f.date_field :from, value: params[:from], class: "form-control" %>
+    </div>
+    <div class="col-6 col-md-2">
+      <%= f.label :to, "Ate", class: "form-label" %>
+      <%= f.date_field :to, value: params[:to], class: "form-control" %>
+    </div>
+    <div class="col-12 col-md-1 d-grid">
+      <%= f.button class: "btn btn-outline-primary", title: "Filtrar" do %>
+        <i class="bi bi-search"></i>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<div class="panel p-3 p-md-4">
+  <%= render "table", transactions: @transactions %>
+</div>

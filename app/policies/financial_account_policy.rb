@@ -1,0 +1,2 @@
+class FinancialAccountPolicy < CompanyScopedPolicy
+end
